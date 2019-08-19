@@ -1,0 +1,29 @@
+{
+  "name": "simple-node-chat",
+  "version": "1.0.0",
+  "description": "Following a tutorial from GitHub user dkdh on itnext.io. Creating a simple group chat using Node.js and Socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JPUF/Basic-Node.js-Group-Chat.git"
+  },
+  "keywords": [
+    "node",
+    "im",
+    "chat"
+  ],
+  "author": "James Bennett",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JPUF/Basic-Node.js-Group-Chat/issues"
+  },
+  "homepage": "https://github.com/JPUF/Basic-Node.js-Group-Chat#readme",
+  "dependencies": {
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  }
+}
