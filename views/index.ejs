@@ -39,5 +39,8 @@
             });
             // ask username
             var username = prompt('Please tell me your name');
+            while(username == null) {
+                username = prompt('Please enter a valid name');
+            }
             socket.emit('username', username);
     </script>
