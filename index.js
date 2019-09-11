@@ -19,11 +19,14 @@ io.sockets.on('connection', function(socket) {
     })
 
     socket.on('chat_message', function(message) {
-        io.emit('chat_message', '<strong>' + socket.username + '</strong>: ' + message);
+        io.emit('chat_message', {
+            'username' : socket.username,
+            'message' : message
+        });
     });
 
 });
 
-const server = http.listen(8080, function() {
-    console.log('listening on *:8080');
+const server = http.listen(4000, function() {
+    console.log('listening on *:4000');
 });
