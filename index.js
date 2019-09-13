@@ -18,10 +18,11 @@ io.sockets.on('connection', function(socket) {
         io.emit('is_online', '🔴 <i>' + socket.username + ' left the chat..</i>');
     })
 
-    socket.on('chat_message', function(message) {
+    socket.on('chat_message', function(object) {
         io.emit('chat_message', {
             'username' : socket.username,
-            'message' : message
+            'message' : object.message,
+            'user_time' : object.user_time
         });
     });
 
