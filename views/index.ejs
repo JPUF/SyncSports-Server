@@ -39,9 +39,10 @@
             socket.on('chat_message', function(msgObject){
                 console.log(msgObject)
                 msg = `<strong>${msgObject.username}:</strong> ${msgObject.message} - ${Date(msgObject.user_time).toString()}`
+                const timeDifference = Date.now() - msgObject.user_time
                 setTimeout(() => {
                     $('#messages').append($('<li>').html(msg));
-                }, 1000);//One second delay 1000ms
+                }, timeDifference);
             });
             // append text if someone is online
             socket.on('is_online', function(username) {
