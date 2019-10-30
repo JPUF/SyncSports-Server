@@ -21,6 +21,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('chat_message', function(object) {
         io.emit('chat_message', {
             'username' : socket.username,
+            'color' : object.color,
             'message' : object.message,
             'user_time' : object.user_time
         });

@@ -29,6 +29,7 @@
                 e.preventDefault(); // prevents page reloading
                 socket.emit('chat_message', {
                     'username' : username,
+                    'color' : "#5282d1",
                     'message' : $('#txt').val(),
                     'user_time' : Date.now()
                 });
