@@ -5,4 +5,4 @@ The Node.JS/Express back-end for the SyncSports project.
 
 📊 [Development Trello board](https://trello.com/b/LReAHEFr)
 
-🗄 [Android Front-end GitHub repository](https://github.com/JPUF/SyncSports-Android)
+📱 [Android Front-end GitHub repository](https://github.com/JPUF/SyncSports-Android)
