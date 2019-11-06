@@ -1,3 +1,8 @@
+/*
+Code adapted from the Socket.IO documentation's tutorial.
+https://socket.io/get-started/chat
+*/
+
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
@@ -11,11 +16,11 @@ app.get('/', function(req, res) {
 io.sockets.on('connection', function(socket) {
     socket.on('username', function(username) {
         socket.username = username;
-        io.emit('is_online', '🔵 <i>' + socket.username + ' joined the chat..</i>');
+        io.emit('is_online', '<i>' + socket.username + ' connected..</i>');
     });
 
     socket.on('disconnect', function(username) {
-        io.emit('is_online', '🔴 <i>' + socket.username + ' left the chat..</i>');
+        io.emit('is_online', '<i>' + socket.username + ' disconnected..</i>');
     })
 
     socket.on('chat_message', function(object) {

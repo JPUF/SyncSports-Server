@@ -22,13 +22,12 @@
     </form>
     <script>
             var socket = io.connect('http://localhost:4000');
-            var username;
 
             // submit text message without reload/refresh the page
             $('form').submit(function(e){
                 e.preventDefault(); // prevents page reloading
                 socket.emit('chat_message', {
-                    'username' : username,
+                    'username' : "WebApp",
                     'color' : "#5282d1",
                     'message' : $('#txt').val(),
                     'user_time' : Date.now()
@@ -49,11 +48,4 @@
             socket.on('is_online', function(username) {
                 $('#messages').append($('<li>').html(username));
             });
-            // ask username
-            username = prompt('Please tell me your name');
-            while(username == null) {
-                username = prompt('Please enter a valid name');
-            }
-            console.log(typeof username);
-            socket.emit('username', username);
     </script>
