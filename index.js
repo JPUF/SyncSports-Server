@@ -17,19 +17,11 @@ app.get('/', function(req, res) {
 io.sockets.on('connection', function(socket) {
     socket.on('username', function(username) {
         socket.username = username;
-<<<<<<< HEAD
-        io.emit('is_online', '<i>' + socket.username + ' connected..</i>');
-    });
-
-    socket.on('disconnect', function(username) {
-        io.emit('is_online', '<i>' + socket.username + ' disconnected..</i>');
-=======
         io.emit('is_online', '🔵 <i>' + socket.username + ' joined the chat...</i>');
     });
 
     socket.on('disconnect', function(username) {
         io.emit('is_online', '🔴 <i>' + socket.username + ' left the chat...</i>');
->>>>>>> efe47434f14eb8915c1307be8b33e709502c807b
     })
 
     socket.on('chat_message', function(object) {
