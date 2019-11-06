@@ -1,5 +1,5 @@
 {
-  "name": "simple-node-chat",
+  "name": "syncsports-server",
   "version": "1.0.0",
   "description": "Following a tutorial from GitHub user dkdh on itnext.io. Creating a simple group chat using Node.js and Socket.io",
   "main": "index.js",
@@ -25,5 +25,9 @@
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "socket.io": "^2.2.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": "11.1.0"
   }
 }
