@@ -31,7 +31,7 @@
             $('form').submit(function(e){
                 e.preventDefault(); // prevents page reloading
                 socket.emit('chat_message', {
-                    'username' : username,
+                    'username' : "WebApp",
                     'color' : "#5282d1",
                     'message' : $('#txt').val(),
                     'user_time' : Date.now()
@@ -41,22 +41,10 @@
             });
             // append the chat text message
             socket.on('chat_message', function(msgObject){
-                console.log(msgObject)
                 msg = `<strong>${msgObject.username}:</strong> ${msgObject.message} - ${Date(msgObject.user_time).toString()}`
-                const timeDifference = Date.now() - msgObject.user_time
+                timeDifference = Date.now() - msgObject.user_time
                 setTimeout(() => {
                     $('#messages').append($('<li>').html(msg));
-                }, timeDifference);
+                }, 0);
             });
-            // append text if someone is online
-            socket.on('is_online', function(username) {
-                $('#messages').append($('<li>').html(username));
-            });
-            // ask username
-            username = prompt('Please tell me your name');
-            while(username == null) {
-                username = prompt('Please enter a valid name');
-            }
-            console.log(typeof username);
-            socket.emit('username', username);
     </script>
