@@ -52,5 +52,11 @@
                     $('#messages').append($('<li>').html(msg));
                 }, 0);
             });
+
+            // append text if someone is online
+            socket.on('is_online', function(username) {
+                $('#messages').append($('<li>').html(username));
+            });
+            
             socket.emit('username', "WebApp");
     </script>
