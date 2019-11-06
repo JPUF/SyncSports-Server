@@ -23,10 +23,15 @@
     <script>
             //var socket = io.connect('http://syncsport.herokuapp.com/');
             //var socket = io.connect('http://localhost:5000');
-            console.log("result: <%= process.env.PORT%>")
-            var socket = io.connect('<%= process.env.PORT%>');
+            var site;
+            if("<%= process.env.PORT%>" == "5000") {
+                site = 'http://localhost:5000'
+            } else {
+                site = 'http://syncsport.herokuapp.com/'
+            }
+            var socket = io.connect(site);
             var username;
-
+            //TODO try to cite
             // submit text message without reload/refresh the page
             $('form').submit(function(e){
                 e.preventDefault(); // prevents page reloading
