@@ -36,7 +36,7 @@
             $('form').submit(function(e){
                 e.preventDefault(); // prevents page reloading
                 socket.emit('chat_message', {
-                    'username' : "WebApp",
+                    'username' : username,
                     'color' : "#5282d1",
                     'message' : $('#txt').val(),
                     'user_time' : Date.now()
@@ -52,4 +52,5 @@
                     $('#messages').append($('<li>').html(msg));
                 }, 0);
             });
+            socket.emit('username', "WebApp");
     </script>
