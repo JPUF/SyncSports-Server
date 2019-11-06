@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const PORT = process.env.PORT || 4000
 
 app.get('/', function(req, res) {
     res.render('index.ejs');
@@ -29,6 +30,6 @@ io.sockets.on('connection', function(socket) {
 
 });
 
-const server = http.listen(4000, function() {
-    console.log('listening on *:4000');
+const server = http.listen(PORT, function() {
+    console.log('listening on *:'+PORT);
 });
