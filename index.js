@@ -17,16 +17,23 @@ app.get('/', function(req, res) {
 
 io.sockets.on('connection', function(socket) {
     socket.on('username', function(username) {
-        socket.username = username;
-        io.emit('is_online', '🔵 <i>' + socket.username + ' joined the chat...</i>');
+        console.log("user joined: " + username)
+        socket.on("room", function(room){
+            socket.username = username;
+            socket.room = room
+            io.emit('is_online', '<i>' + socket.username + ' joined ' + room + '</i>');
+            socket.join(room)
+            console.log("joining room: " + room)
+        });        
     });
 
     socket.on('disconnect', function(username) {
-        io.emit('is_online', '🔴 <i>' + socket.username + ' left the chat...</i>');
+        io.emit('is_online', '<i>' + socket.username + ' has left '+ socket.room +'</i>');
+        //maybe socket.leave(socket.room)?
     })
 
     socket.on('chat_message', function(object) {
-        io.emit('chat_message', {
+        io.sockets.in(socket.room).emit('chat_message', {
             'username' : socket.username,
             'color' : object.color,
             'message' : object.message,
