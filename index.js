@@ -14,6 +14,10 @@ app.get('/', function(req, res) {
     res.render('index.ejs');
 });
 
+app.post('/rooms/:roomName', function(req, res){
+    console.log("POST received: params = " + req.params)
+    res.send("Added room")
+})
 
 io.sockets.on('connection', function(socket) {
     socket.on('username', function(username) {
