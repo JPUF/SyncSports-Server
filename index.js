@@ -15,7 +15,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/rooms/:roomName', function(req, res){
-    res.send("Added room.")
+    res.send("Added room. name = " + req.params)
 })
 
 io.sockets.on('connection', function(socket) {
