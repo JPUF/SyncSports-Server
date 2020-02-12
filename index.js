@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
 
 app.post('/rooms/:roomName', function(req, res){
     console.log("POST received: params = " + req.params)
-    res.send("Added room. name = " + req.params[0])
+    res.send("Added room. name = " + req.params)
 })
 
 io.sockets.on('connection', function(socket) {
