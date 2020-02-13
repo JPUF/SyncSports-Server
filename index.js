@@ -7,13 +7,15 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const admin = require('firebase-admin');
-const dbApp = admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
+const PORT = process.env.PORT
+
+const serviceAccount = require("./syncsport_firebase_keys.json")
+const dbAdmin = require('firebase-admin');
+dbAdmin.initializeApp({
+    credential: dbAdmin.credential.cert(serviceAccount),
     databaseURL: "https://syncsport-4cc01.firebaseio.com"
 });
-const db = dbApp.database();
-const PORT = process.env.PORT
+const db = dbAdmin.database();
 
 app.get('/', function(req, res) {
     res.render('index.ejs');
