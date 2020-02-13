@@ -12,7 +12,7 @@ const PORT = process.env.PORT
 const serviceAccount = require("./config/syncsport_firebase_keys.json")
 const dbAdmin = require('firebase-admin');
 dbAdmin.initializeApp({
-    credential: dbAdmin.credential.applicationDefault(),
+    credential: dbAdmin.credential.cert(serviceAccount),
     databaseURL: "https://syncsport-4cc01.firebaseio.com"
 });
 const db = dbAdmin.database();
@@ -26,6 +26,12 @@ app.post('/rooms/:roomName', function(req, res){
     ref.once("value", function(snapshot) {
         console.log(snapshot.val());
     })
+
+    console.log("room name = " + req.query.roomName)
+    db.ref("/rooms/" + req.query.roomName).set({
+        member_count: 0,
+        public: true
+    });
     res.send(req.params)
 })
 
