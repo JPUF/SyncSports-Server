@@ -35,9 +35,9 @@ app.get('/rooms', function(req, res){
     var ref = db.ref("/rooms");
     ref.once("value", function(snapshot) {
         roomArray = snapshot.val();
+        console.log("\n\nAll rooms: " + roomArray);
+        res.send(roomArray)
     })
-    console.log("\n\nAll rooms:\n" + roomArray);
-    res.send(roomArray)
 });
 
 io.sockets.on('connection', function(socket) {
