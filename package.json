@@ -24,6 +24,7 @@
   "dependencies": {
     "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "firebase-admin": "^8.9.2",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {},

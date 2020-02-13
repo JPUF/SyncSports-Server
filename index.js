@@ -7,14 +7,20 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const admin = require('firebase-admin');
+const dbApp = admin.initializeApp();
+const db = dbApp.database();
 const PORT = process.env.PORT
-
 
 app.get('/', function(req, res) {
     res.render('index.ejs');
 });
 
 app.post('/rooms/:roomName', function(req, res){
+    var ref = db.ref("/rooms");
+    ref.once("1", function(snapshot) {
+        console.log(snapshot.val());
+    })
     res.send(req.params)
 })
 
