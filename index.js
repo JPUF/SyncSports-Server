@@ -8,7 +8,10 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const admin = require('firebase-admin');
-const dbApp = admin.initializeApp();
+const dbApp = admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+    databaseURL: "https://syncsport-4cc01.firebaseio.com"
+});
 const db = dbApp.database();
 const PORT = process.env.PORT
 
