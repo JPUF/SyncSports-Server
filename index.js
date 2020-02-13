@@ -22,18 +22,23 @@ app.get('/', function(req, res) {
 });
 
 app.post('/rooms/:roomName', function(req, res){
-    var ref = db.ref("/rooms");
-    ref.once("value", function(snapshot) {
-        console.log(snapshot.val());
-    })
-
     console.log("room name = " + req.params.roomName)
     db.ref("/rooms/" + req.params.roomName).set({
         member_count: 0,
         public: true
     });
     res.send(req.params)
-})
+});
+
+app.get('/rooms', function(req, res){
+    var roomArray;
+    var ref = db.ref("/rooms");
+    ref.once("value", function(snapshot) {
+        roomArray = snapshot.val();
+    })
+    console.log("\n\nAll rooms:\n" + roomArray);
+    res.send(roomArray)
+});
 
 io.sockets.on('connection', function(socket) {
     socket.on('username', function(username) {
