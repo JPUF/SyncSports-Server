@@ -27,8 +27,8 @@ app.post('/rooms/:roomName', function(req, res){
         console.log(snapshot.val());
     })
 
-    console.log("room name = " + req.query.roomName)
-    db.ref("/rooms/" + req.query.roomName).set({
+    console.log("room name = " + req.params.roomName)
+    db.ref("/rooms/" + req.params.roomName).set({
         member_count: 0,
         public: true
     });
