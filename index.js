@@ -23,7 +23,7 @@ app.get('/', function(req, res) {
 
 app.post('/rooms/:roomName', function(req, res){
     var ref = db.ref("/rooms");
-    ref.once("1", function(snapshot) {
+    ref.once("value", function(snapshot) {
         console.log(snapshot.val());
     })
     res.send(req.params)
