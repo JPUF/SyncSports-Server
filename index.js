@@ -9,10 +9,10 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT
 
-const serviceAccount = require("./syncsport_firebase_keys.json")
+const serviceAccount = require("./config/syncsport_firebase_keys.json")
 const dbAdmin = require('firebase-admin');
 dbAdmin.initializeApp({
-    credential: dbAdmin.credential.cert(serviceAccount),
+    credential: dbAdmin.credential.applicationDefault(),
     databaseURL: "https://syncsport-4cc01.firebaseio.com"
 });
 const db = dbAdmin.database();
