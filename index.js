@@ -40,6 +40,14 @@ app.get('/rooms', function(req, res){
     })
 });
 
+const updateRoomCount = function(roomName) {
+    //Update room member count
+    const roomRef = db.ref("/rooms");
+    roomRef.child(room).update({
+        'member_count': io.sockets.adapter.rooms[room].length
+    })
+}
+
 io.sockets.on('connection', function(socket) {
     socket.on('username', function(username) {
         console.log("user joined: " + username)
@@ -49,18 +57,14 @@ io.sockets.on('connection', function(socket) {
             io.emit('is_online', '<i>' + socket.username + ' joined ' + room + '</i>');
             socket.join(room)
             console.log("joining room: " + room)
-
-            //Update room member count
-            const roomRef = db.ref("/rooms");
-            roomRef.child(room).update({
-                'member_count': io.sockets.adapter.rooms[room].length
-            })
+            updateRoomCount(room)
         });        
     });
 
     socket.on('disconnect', function(username) {
         io.emit('is_online', '<i>' + socket.username + ' has left '+ socket.room +'</i>');
         //maybe socket.leave(socket.room)?
+        updateRoomCount(room);
     })
 
     socket.on('chat_message', function(object) {
