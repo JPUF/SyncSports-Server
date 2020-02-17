@@ -64,7 +64,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('disconnect', function(username) {
         io.emit('is_online', '<i>' + socket.username + ' has left '+ socket.room +'</i>');
         //maybe socket.leave(socket.room)?
-        updateRoomCount(room);
+        updateRoomCount(socket.room);
     })
 
     socket.on('chat_message', function(object) {
