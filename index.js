@@ -40,10 +40,10 @@ app.get('/rooms', function(req, res){
     })
 });
 
-const updateRoomCount = function(roomName) {
+function updateRoomCount(roomName) {
     //Update room member count
     const roomRef = db.ref("/rooms");
-    roomRef.child(room).update({
+    roomRef.child(roomName).update({
         'member_count': io.sockets.adapter.rooms[room].length
     })
 }
