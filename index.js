@@ -53,7 +53,7 @@ io.sockets.on('connection', function(socket) {
             //Update room member count
             const roomRef = db.ref("/rooms");
             roomRef.child(room).update({
-                'member_count': Math.floor(Math.random() * 10)
+                'member_count': io.sockets.adapter.rooms[room].length
             })
         });        
     });
