@@ -49,6 +49,12 @@ io.sockets.on('connection', function(socket) {
             io.emit('is_online', '<i>' + socket.username + ' joined ' + room + '</i>');
             socket.join(room)
             console.log("joining room: " + room)
+
+            //Update room member count
+            const roomRef = db.ref("/rooms");
+            roomRef.child(room).update({
+                'member_count': Math.floor(Math.random() * 10)
+            })
         });        
     });
 
