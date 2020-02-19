@@ -62,7 +62,9 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function(username) {
+        console.log("disconnect called, from room: " + socket.room)
         io.emit('is_online', '<i>' + socket.username + ' has left '+ socket.room +'</i>');
+        updateRoomCount(socket.room);
         //maybe socket.leave(socket.room)?
     })
 
