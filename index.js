@@ -43,9 +43,15 @@ app.get('/rooms', function(req, res){
 function updateRoomCount(roomName) {
     //Update room member count
     const roomRef = db.ref("/rooms");
+    var memberCount;
+    if(io.sockets.adapter.rooms[roomName]) {
+        memberCount = io.sockets.adapter.rooms[roomName].length
+    } else {
+        memberCount = 0;
+    }
     roomRef.child(roomName).update({
-        'member_count': io.sockets.adapter.rooms[roomName].length
-    })
+        'member_count': memberCount
+    });
 }
 
 io.sockets.on('connection', function(socket) {
