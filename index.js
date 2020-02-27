@@ -33,18 +33,25 @@ app.post('/rooms/:roomName', function(req, res){
 
 app.get('/rooms', function(req, res){
     removeExpiredRooms();
+    var roomArray = getAllRooms();
+    res.send(roomArray)
+});
 
-    var roomArray;
+function getAllRooms() {
     var ref = db.ref("/rooms");
+    var roomArray;
     ref.once("value", function(snapshot) {
         roomArray = snapshot.val();
         console.log("\n\nAll rooms: " + roomArray);
-        res.send(roomArray)
+        return roomArray;
     })
-});
+}
 
 function removeExpiredRooms() {
-
+    var roomArray = getAllRooms();
+    for (const room of roomArray) {
+        console.log("room to check expiration: " + room)
+    }
 }
 
 function updateRoomCount(roomName) {
