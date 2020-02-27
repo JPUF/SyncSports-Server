@@ -25,12 +25,15 @@ app.post('/rooms/:roomName', function(req, res){
     console.log("room name = " + req.params.roomName)
     db.ref("/rooms/" + req.params.roomName).set({
         member_count: 0,
-        public: true
+        public: true,
+        last_used: Date.now()
     });
     res.send(req.params)
 });
 
 app.get('/rooms', function(req, res){
+    removeExpiredRooms();
+
     var roomArray;
     var ref = db.ref("/rooms");
     ref.once("value", function(snapshot) {
@@ -40,6 +43,10 @@ app.get('/rooms', function(req, res){
     })
 });
 
+function removeExpiredRooms() {
+
+}
+
 function updateRoomCount(roomName) {
     //Update room member count
     const roomRef = db.ref("/rooms");
@@ -48,6 +55,9 @@ function updateRoomCount(roomName) {
         memberCount = io.sockets.adapter.rooms[roomName].length
     } else {
         memberCount = 0;
+        roomRef.child(roomName).update({
+            'last_used': Date.now()
+        });
     }
     roomRef.child(roomName).update({
         'member_count': memberCount
@@ -71,7 +81,6 @@ io.sockets.on('connection', function(socket) {
         console.log("disconnect called, from room: " + socket.room)
         io.emit('is_online', '<i>' + socket.username + ' has left '+ socket.room +'</i>');
         updateRoomCount(socket.room);
-        //maybe socket.leave(socket.room)?
     })
 
     socket.on('chat_message', function(object) {
@@ -81,6 +90,9 @@ io.sockets.on('connection', function(socket) {
             'message' : object.message,
             'user_time' : object.user_time
         });
+        db.ref("/rooms/" + socket.room).update({
+            'last_used': Date.now()
+        })
     });
 
 });
