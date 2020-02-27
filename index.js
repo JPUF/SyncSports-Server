@@ -49,7 +49,7 @@ function getAllRooms() {
 
 function removeExpiredRooms() {
     var roomArray = getAllRooms();
-    for (const room of roomArray) {
+    for (var room in roomArray) {
         console.log("room to check expiration: " + room)
     }
 }
