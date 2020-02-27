@@ -33,8 +33,13 @@ app.post('/rooms/:roomName', function(req, res){
 
 app.get('/rooms', function(req, res){
     removeExpiredRooms();
-    var roomArray = getAllRooms();
-    res.send(roomArray)
+    var ref = db.ref("/rooms");
+    var roomArray;
+    ref.once("value", function(snapshot) {
+        roomArray = snapshot.val();
+        console.log("\n\nAll rooms: " + roomArray);
+        res.send(roomArray);
+    })
 });
 
 function getAllRooms() {
@@ -48,7 +53,13 @@ function getAllRooms() {
 }
 
 function removeExpiredRooms() {
-    var roomArray = getAllRooms();
+    var ref = db.ref("/rooms");
+    var roomArray;
+    ref.once("value", function(snapshot) {
+        roomArray = snapshot.val();
+        console.log("\n\nAll rooms: " + roomArray);
+        res.send(roomArray);
+    })
     for (var room in roomArray) {
         console.log("room to check expiration: " + room)
     }
