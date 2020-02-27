@@ -48,7 +48,9 @@ function removeExpiredRooms() {
     ref.once("value", function(snapshot) {
         roomArray = snapshot.val();
         for( let room in roomArray) {
-            console.log("to expire: " + room)
+            if(room.member_count == 0) {
+                console.log("to expire: " + room)
+            }
         }
     })
     //iterate through rooms. Delete rooms with 0 members and long time since last use. 
