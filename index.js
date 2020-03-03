@@ -32,34 +32,29 @@ app.post('/rooms/:roomName', function(req, res){
 });
 
 app.get('/rooms', function(req, res){
-    removeExpiredRooms();
     var roomArray;
     var ref = db.ref("/rooms");
     ref.once("value", function(snapshot) {
         roomArray = snapshot.val();
+        removeExpiredRooms(roomArray)
         console.log("\n\nAll rooms: " + roomArray);
         res.send(roomArray)
     })
 });
 
-function removeExpiredRooms() {
-    var ref = db.ref("/rooms");
-    var roomArray;
-    ref.once("value", function(snapshot) {
-        roomArray = snapshot.val();
-        for( let room in roomArray) {
-            console.log("EXPIRE CHECK: " + room + " : " + roomArray[room].last_used)
-            let isEmpty = roomArray[room].member_count == 0 ? true : false;
-            let timeSinceLastUsed = Date.now() - roomArray[room].last_used
-            let threeHours = 1000 * 60 * 60 * 3;
+function removeExpiredRooms(roomArray) {    
+    for( let room in roomArray) {
+        console.log("EXPIRE CHECK: " + room + " : " + roomArray[room].last_used)
+        let isEmpty = roomArray[room].member_count == 0 ? true : false;
+        let timeSinceLastUsed = Date.now() - roomArray[room].last_used
+        let threeHours = 1000 * 60 * 60 * 3;
 
-            if(isEmpty && timeSinceLastUsed >= threeHours) {
-                console.log("expired: " + room)
-                //Delete room
-                db.ref("/rooms/"+room).remove()
-            }
+        if(isEmpty && timeSinceLastUsed >= threeHours) {
+            console.log("expired: " + room)
+            //Delete room
+            db.ref("/rooms/"+room).remove()
         }
-    })
+    }
 }
 
 function updateRoomCount(roomName) {
