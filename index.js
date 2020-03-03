@@ -53,15 +53,13 @@ function removeExpiredRooms() {
             let timeSinceLastUsed = Date.now() - roomArray[room].last_used
             let threeHours = 1000 * 60 * 60 * 3;
 
-            let hoursSince = timeSinceLastUsed / (1000 * 60 * 60)
-            console.log(room + "- timeSinceLastUsed = " + hoursSince)
-
             if(isEmpty && timeSinceLastUsed >= threeHours) {
                 console.log("expired: " + room)
+                //Delete room
+                db.ref("/rooms/"+roomName).remove()
             }
         }
     })
-    //iterate through rooms. Delete rooms with 0 members and long time since last use. 
 }
 
 function updateRoomCount(roomName) {
