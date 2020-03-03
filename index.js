@@ -56,7 +56,7 @@ function removeExpiredRooms() {
             if(isEmpty && timeSinceLastUsed >= threeHours) {
                 console.log("expired: " + room)
                 //Delete room
-                db.ref("/rooms/"+roomName).remove()
+                db.ref("/rooms/"+room).remove()
             }
         }
     })
