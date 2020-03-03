@@ -48,8 +48,8 @@ function removeExpiredRooms() {
     ref.once("value", function(snapshot) {
         roomArray = snapshot.val();
         for( let room in roomArray) {
-            console.log("EXPIRE CHECK: " + room)
-            if(room.member_count == 0) {
+            console.log("EXPIRE CHECK: " + room + " : " + roomArray[room].last_used)
+            if(roomArray[room].member_count == 0) {//this test doesn't work. may need to read from DB. 
                 console.log("member count 0: " + room)
             }
         }
