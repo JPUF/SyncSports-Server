@@ -52,9 +52,12 @@ function removeExpiredRooms() {
             let isEmpty = roomArray[room].member_count == 0 ? true : false;
             let timeSinceLastUsed = Date.now() - roomArray[room].last_used
             let threeHours = 1000 * 60 * 60 * 3;
+
+            let hoursSince = timeSinceLastUsed / (1000 * 60 * 60)
+            console.log(room + "- timeSinceLastUsed = " + hoursSince)
+
             if(isEmpty && timeSinceLastUsed >= threeHours) {
-                let hoursSince = timeSinceLastUsed / (1000 * 60 * 60)
-                console.log("expired: " + room + "- timeSinceLastUsed = " + hoursSince)
+                console.log("expired: " + room)
             }
         }
     })
