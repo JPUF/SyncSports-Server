@@ -36,9 +36,9 @@ app.get('/rooms', function(req, res){
     var ref = db.ref("/rooms");
     ref.once("value", function(snapshot) {
         roomArray = snapshot.val();
-        removeExpiredRooms(roomArray)
-        console.log("\n\nAll rooms: " + roomArray);
-        res.send(roomArray)
+        var filteredRooms = removeExpiredRooms(roomArray);
+        console.log("\n\nAll rooms: " + filteredRooms);
+        res.send(filteredRooms)
     })
 });
 
@@ -53,8 +53,10 @@ function removeExpiredRooms(roomArray) {
             console.log("expired: " + room)
             //Delete room
             db.ref("/rooms/"+room).remove()
+            delete roomArray[room];
         }
     }
+    return roomArray;
 }
 
 function updateRoomCount(roomName) {
