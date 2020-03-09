@@ -51,7 +51,7 @@ function updateRoomCount(roomName) {
     });
 };
 
-function logMessage(room, message) {
-    const messageRef = db.ref("/messages/" + room);
-    messageRef.set(message);
+function logMessage(room, messageObject) {
+    const messageRef = db.ref("/messages/" + room + "/"+messageObject.message);
+    messageRef.set(messageObject);
 };
