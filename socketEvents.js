@@ -1,6 +1,5 @@
 const { io, db } = require("./index");
 
-
 io.sockets.on('connection', function (socket) {
     socket.on('username', function (username) {
         console.log("user joined: " + username);
@@ -19,15 +18,17 @@ io.sockets.on('connection', function (socket) {
         updateRoomCount(socket.room);
     });
     socket.on('chat_message', function (object) {
-        io.sockets.in(socket.room).emit('chat_message', {
+        const chatObject = {
             'username': socket.username,
             'color': object.color,
             'message': object.message,
             'user_time': object.user_time
-        });
+        };
+        io.sockets.in(socket.room).emit('chat_message', chatObject);
         db.ref("/rooms/" + socket.room).update({
             'last_used': Date.now()
         });
+        console.log("Message to save: " + chatObject.message)
     });
 });
 
