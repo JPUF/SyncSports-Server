@@ -9,7 +9,6 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 exports.io = io;
 const PORT = process.env.PORT
-
 const serviceAccount = require("./config/syncsport_firebase_keys.json")
 const dbAdmin = require('firebase-admin');
 dbAdmin.initializeApp({
@@ -18,6 +17,7 @@ dbAdmin.initializeApp({
 });
 const db = dbAdmin.database();
 exports.db = db;
+require("./socketEvents");
 
 app.get('/', function(req, res) {
     res.render('index.ejs');
