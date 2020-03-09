@@ -29,6 +29,7 @@ io.sockets.on('connection', function (socket) {
             'last_used': Date.now()
         });
         console.log("Message to save: " + chatObject.message)
+        logMessage(socket.room, chatObject)
     });
 });
 
@@ -48,4 +49,9 @@ function updateRoomCount(roomName) {
     roomRef.child(roomName).update({
         'member_count': memberCount
     });
+};
+
+function logMessage(room, message) {
+    const messageRef = db.ref("/messages/" + room);
+    messageRef.set(message);
 };
