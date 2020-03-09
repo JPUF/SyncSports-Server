@@ -7,6 +7,7 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+exports.io = io;
 const PORT = process.env.PORT
 
 const serviceAccount = require("./config/syncsport_firebase_keys.json")
@@ -16,6 +17,7 @@ dbAdmin.initializeApp({
     databaseURL: "https://syncsport-4cc01.firebaseio.com"
 });
 const db = dbAdmin.database();
+exports.db = db;
 
 app.get('/', function(req, res) {
     res.render('index.ejs');
@@ -58,56 +60,6 @@ function removeExpiredRooms(roomArray) {
     }
     return roomArray;
 }
-
-function updateRoomCount(roomName) {
-    //Update room member count
-    const roomRef = db.ref("/rooms");
-    var memberCount;
-    if(io.sockets.adapter.rooms[roomName]) {
-        memberCount = io.sockets.adapter.rooms[roomName].length
-    } else {
-        memberCount = 0;
-        roomRef.child(roomName).update({
-            'last_used': Date.now()
-        });
-    }
-    roomRef.child(roomName).update({
-        'member_count': memberCount
-    });
-}
-
-io.sockets.on('connection', function(socket) {
-    socket.on('username', function(username) {
-        console.log("user joined: " + username)
-        socket.on("room", function(room){
-            socket.username = username;
-            socket.room = room
-            io.emit('is_online', '<i>' + socket.username + ' joined ' + room + '</i>');
-            socket.join(room)
-            console.log("joining room: " + room)
-            updateRoomCount(room)
-        });        
-    });
-
-    socket.on('disconnect', function(username) {
-        console.log("disconnect called, from room: " + socket.room)
-        io.emit('is_online', '<i>' + socket.username + ' has left '+ socket.room +'</i>');
-        updateRoomCount(socket.room);
-    })
-
-    socket.on('chat_message', function(object) {
-        io.sockets.in(socket.room).emit('chat_message', {
-            'username' : socket.username,
-            'color' : object.color,
-            'message' : object.message,
-            'user_time' : object.user_time
-        });
-        db.ref("/rooms/" + socket.room).update({
-            'last_used': Date.now()
-        })
-    });
-
-});
 
 const server = http.listen(PORT, function() {
     console.log('listening on *:'+PORT);
