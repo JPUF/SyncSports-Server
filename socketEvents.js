@@ -26,7 +26,7 @@ chatNamespace.on('connection', function (socket) {
             'message': object.message,
             'user_time': object.user_time
         };
-        io.sockets.in(socket.room).emit('chat_message', chatObject);
+        chatNamespace.in(socket.room).emit('chat_message', chatObject);
         db.ref("/rooms/" + socket.room).update({
             'last_used': Date.now()
         });
