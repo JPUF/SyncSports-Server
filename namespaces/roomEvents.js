@@ -8,8 +8,14 @@ roomNamespace.on('connection', function (socket) {
     socket.on("room_request", function() {
         console.log("Received room request");
         //get all rooms
-        const rooms = "Dummy Room object";
-        roomNamespace.emit("room_response", rooms)
+
+        var roomArray;
+        db.ref("/rooms").on("value", function(snapshot) {
+            roomArray = snapshot.val();
+            var filteredRooms = removeExpiredRooms(roomArray);
+            console.log("namespace rooms: " + filteredRooms);
+            roomNamespace.emit("room_response", filteredRooms);
+        })
     });
 
     socket.on('disconnect', function () {
