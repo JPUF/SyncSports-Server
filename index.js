@@ -49,7 +49,7 @@ app.get('/rooms', function(req, res){
         roomArray = snapshot.val();
         var filteredRooms = removeExpiredRooms(roomArray);
         console.log("\n\nAll rooms async: " + filteredRooms);
-        res.send(filteredRooms)
+        //res.send(filteredRooms)
     })
 });
 
