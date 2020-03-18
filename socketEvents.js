@@ -1,4 +1,9 @@
 const { io, db } = require("./index");
+const chatNamespace = io.of('/chat');
+
+chatNamespace.on('connection', function(socket){
+    console.log('someone connected to chat namespace');
+});
 
 io.sockets.on('connection', function (socket) {
     socket.on('username', function (username) {
