@@ -17,7 +17,8 @@ dbAdmin.initializeApp({
 });
 const db = dbAdmin.database();
 exports.db = db;
-require("./socketEvents");
+require("./namespaces/chatEvents");
+require("./namespaces/roomEvents");
 
 app.get('/', function(req, res) {
     res.render('index.ejs');

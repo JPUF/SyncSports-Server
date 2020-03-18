@@ -1,4 +1,4 @@
-const { io, db } = require("./index");
+const { io, db } = require("../index");
 const chatNamespace = io.of('/chat');
 
 
