@@ -37,19 +37,19 @@ app.get('/rooms', function(req, res){
     var roomArray;
     var ref = db.ref("/rooms");
     
-    ref.once("value", function(snapshot) {
-        roomArray = snapshot.val();
-        var filteredRooms = removeExpiredRooms(roomArray);
-        console.log("\n\nAll rooms: " + filteredRooms);
-        res.send(filteredRooms)
-    })
+    // ref.once("value", function(snapshot) {
+    //     roomArray = snapshot.val();
+    //     var filteredRooms = removeExpiredRooms(roomArray);
+    //     console.log("\n\nAll rooms: " + filteredRooms);
+    //     res.send(filteredRooms)
+    // })
     
 
     ref.on("value", function(snapshot) {
         roomArray = snapshot.val();
         var filteredRooms = removeExpiredRooms(roomArray);
         console.log("\n\nAll rooms async: " + filteredRooms);
-        //res.send(filteredRooms)
+        res.write(filteredRooms)
     })
 });
 
