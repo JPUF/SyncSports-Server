@@ -39,8 +39,8 @@ function updateRoomCount(roomName) {
     //Update room member count
     const roomRef = db.ref("/rooms");
     var memberCount;
-    if (io.sockets.adapter.rooms[roomName]) {
-        memberCount = io.sockets.adapter.rooms[roomName].length;
+    if (chatNamespace.adapter.rooms[roomName]) {
+        memberCount = chatNamespace.adapter.rooms[roomName].length;
     }
     else {
         memberCount = 0;
