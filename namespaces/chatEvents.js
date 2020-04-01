@@ -48,6 +48,7 @@ function updateRoomCount(roomName) {
             'last_used': Date.now()
         });
     }
+    console.log("updating member count of room: "+roomName+" to #"+memberCount)
     roomRef.child(roomName).update({
         'member_count': memberCount
     });
