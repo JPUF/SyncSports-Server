@@ -67,9 +67,10 @@ function getID(room) {
     roomRef.once("value", function(snapshot) {
         roomObject = snapshot.val();
         //parse message number
+        const count = roomObject.message_count;
+        return count;
     })
-
-    return 3
+    return 0
 }
 
 function incrementMessageCount(room) {
