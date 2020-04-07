@@ -22,7 +22,7 @@ chatNamespace.on('connection', function (socket) {
     socket.on('chat_message', function (object) {
         incrementMessageCount(socket.room);
         var id;
-        if(object.id == undefined) id == getID(socket.room);
+        if(object.id == undefined) id = getID(socket.room);
         else id = object.id;
         console.log("Object ID is: " + id)
 
