@@ -22,9 +22,13 @@ chatNamespace.on('connection', function (socket) {
     socket.on('chat_message', function (object) {
         incrementMessageCount(socket.room);
         var id;
-        if(object.id == undefined) id = getID(socket.room);
+        if(object.id == undefined) {
+            const snapshot = await getRoomObject(socket.room);
+            id = snapshot.val().message_count
+            console.log("after check, Object ID is: " + id)
+        }
         else id = object.id;
-        console.log("Object ID is: " + id)
+        console.log("after check, Object ID is: " + id)
 
         const chatObject = {
             'id': id,
@@ -62,17 +66,9 @@ function updateRoomCount(roomName) {
     });
 };
 
-function getID(room) {
+function getRoomObject(room) {
     const roomRef = db.ref("/rooms/" + room);
-    var count;
-    roomRef.once("value", function(snapshot) {
-        roomObject = snapshot.val();
-        //parse message number
-        count = roomObject.message_count;
-        console.log("getID reading: " + count);
-    })
-    console.log("getID returning: " + count);
-    return count;
+    return roomRef.once("value");        
 }
 
 function incrementMessageCount(room) {
