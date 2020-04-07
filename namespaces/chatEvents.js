@@ -54,7 +54,7 @@ chatNamespace.on('connection', function (socket) {
 });
 
 function emitMessage(object, room) {
-    chatNamespace.in(room).emit('chat_message', chatObject);
+    chatNamespace.in(room).emit('chat_message', object);
     db.ref("/rooms/" + room).update({
         'last_used': Date.now()
     });
