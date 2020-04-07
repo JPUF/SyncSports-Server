@@ -33,7 +33,7 @@ chatNamespace.on('connection', function (socket) {
         console.log("after check, Object ID is: " + id)
 
         const chatObject = {
-            'id': id,
+            'id': 2,
             'username': socket.username,
             'color': object.color,
             'message': object.message,
