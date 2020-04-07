@@ -98,6 +98,6 @@ function incrementMessageCount(room) {
     })
 }
 function logMessage(room, messageObject) {
-    const messageRef = db.ref("/messages/" + room + "/"+messageObject.message);
+    const messageRef = db.ref("/messages/" + room + "/"+messageObject.id);
     messageRef.set(messageObject);
 };
