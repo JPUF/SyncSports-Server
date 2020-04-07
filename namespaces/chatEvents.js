@@ -20,6 +20,7 @@ chatNamespace.on('connection', function (socket) {
         updateRoomCount(socket.room);
     });
     socket.on('chat_message', function (object) {
+        incrementMessageCount(socket.room);
         var id;
         if(object.id == null) id == getID(socket.room);
         else id = object.id;
@@ -37,7 +38,6 @@ chatNamespace.on('connection', function (socket) {
             'last_used': Date.now()
         });
         console.log("Message to save: " + chatObject.message)
-        incrementMessageCount(socket.room)
         logMessage(socket.room, chatObject)
     });
 });
@@ -76,7 +76,8 @@ function incrementMessageCount(room) {
     const roomRef = db.ref("/rooms/"+room);
     roomRef.once("value", function(snapshot){
         const roomObject = snapshot.val();
-        const number = roomObject.message_count
+        var number = roomObject.message_count
+        if(number == undefined) number = 0;
         console.log("number = "+number)
         roomRef.update({
             'message_count' : number + 1
