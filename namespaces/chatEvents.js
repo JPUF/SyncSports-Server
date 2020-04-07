@@ -26,28 +26,39 @@ chatNamespace.on('connection', function (socket) {
             getRoomObject(socket.room).then(function(snapshot){
                 const snapVal = snapshot.val()
                 console.log("snapshot value: " + snapVal.message_count)
+                const chatObject = {
+                    'id': snapVal.message_count,
+                    'username': object.username,
+                    'color': object.color,
+                    'message': object.message,
+                    'user_time': object.user_time
+                };
+                emitMessage(chatObject, socket.room)
+                console.log("Message to save: " + chatObject.message)
+                logMessage(socket.room, chatObject)  
             })
-            console.log("out of body, Object ID is: " + id)
         }
-        else id = object.id;
-        console.log("after check, Object ID is: " + id)
-
-        const chatObject = {
-            'id': 2,
-            'username': socket.username,
-            'color': object.color,
-            'message': object.message,
-            'user_time': object.user_time
-        };
-
-        chatNamespace.in(socket.room).emit('chat_message', chatObject);
-        db.ref("/rooms/" + socket.room).update({
-            'last_used': Date.now()
-        });
-        console.log("Message to save: " + chatObject.message)
-        logMessage(socket.room, chatObject)
+        else {
+            const chatObject = {
+                'id': object.id,
+                'username': object.username,
+                'color': object.color,
+                'message': object.message,
+                'user_time': object.user_time
+            };
+            emitMessage(chatObject, socket.room)
+            console.log("Message to save: " + chatObject.message)
+            logMessage(socket.room, chatObject)
+        }        
     });
 });
+
+function emitMessage(object, room) {
+    chatNamespace.in(room).emit('chat_message', chatObject);
+    db.ref("/rooms/" + room).update({
+        'last_used': Date.now()
+    });
+}
 
 function updateRoomCount(roomName) {
     //Update room member count
