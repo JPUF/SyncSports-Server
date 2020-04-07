@@ -28,6 +28,7 @@ chatNamespace.on('connection', function (socket) {
                 console.log("snapshot value: " + snapVal.message_count)
                 const chatObject = {
                     'id': snapVal.message_count,
+                    'parent_id' : object.parent_id,
                     'username': object.username,
                     'color': object.color,
                     'message': object.message,
@@ -41,6 +42,7 @@ chatNamespace.on('connection', function (socket) {
         else {
             const chatObject = {
                 'id': object.id,
+                'parent_id' : object.parent_id,
                 'username': object.username,
                 'color': object.color,
                 'message': object.message,
