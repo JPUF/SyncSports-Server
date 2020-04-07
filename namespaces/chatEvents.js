@@ -23,8 +23,9 @@ chatNamespace.on('connection', function (socket) {
         incrementMessageCount(socket.room);
         var id;
         if(object.id == undefined) {
-            const snapshot = await getRoomObject(socket.room);
-            id = snapshot.val().message_count
+            getRoomObject(socket.room).then(function(snapshot){
+                id = snapshot.val().message_count;
+            })
             console.log("after check, Object ID is: " + id)
         }
         else id = object.id;
