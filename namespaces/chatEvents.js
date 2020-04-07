@@ -24,8 +24,8 @@ chatNamespace.on('connection', function (socket) {
         var id;
         if(object.id == undefined) {
             getRoomObject(socket.room).then(function(snapshot){
-                id = snapshot.val().message_count;
-                console.log("before check, Object ID is: " + id)
+                const snapVal = snapshot.val()
+                console.log("snapshot value: " + snapVal)
             })
             console.log("out of body, Object ID is: " + id)
         }
