@@ -75,7 +75,8 @@ function incrementMessageCount(room) {
     console.log("Incrementing count in room: "+room)
     const roomRef = db.ref("/rooms/"+room);
     roomRef.once("value", function(snapshot){
-        const number = snapshot.val();
+        const roomObject = snapshot.val();
+        const number = roomObject.message_count
         console.log("number = "+number)
         roomRef.update({
             'message_count' : number + 1
