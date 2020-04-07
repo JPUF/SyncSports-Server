@@ -28,6 +28,7 @@ app.post('/rooms/:roomName', function(req, res){
     console.log("room name = " + req.params.roomName)
     db.ref("/rooms/" + req.params.roomName).set({
         member_count: 0,
+        message_count: 0,
         public: true,
         last_used: Date.now()
     });
