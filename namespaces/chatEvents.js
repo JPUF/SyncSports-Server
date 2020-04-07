@@ -24,6 +24,7 @@ chatNamespace.on('connection', function (socket) {
         var id;
         if(object.id == undefined) id == getID(socket.room);
         else id = object.id;
+        console.log("Object ID is: " + id)
 
         const chatObject = {
             'id': 2,
