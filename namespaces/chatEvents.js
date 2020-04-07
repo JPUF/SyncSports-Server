@@ -27,7 +27,7 @@ chatNamespace.on('connection', function (socket) {
         console.log("Object ID is: " + id)
 
         const chatObject = {
-            'id': 2,
+            'id': id,
             'username': socket.username,
             'color': object.color,
             'message': object.message,
@@ -64,13 +64,15 @@ function updateRoomCount(roomName) {
 
 function getID(room) {
     const roomRef = db.ref("/rooms/" + room);
+    var count;
     roomRef.once("value", function(snapshot) {
         roomObject = snapshot.val();
         //parse message number
-        const count = roomObject.message_count;
-        return count;
+        count = roomObject.message_count;
+        console.log("getID reading: " + count);
     })
-    return 0
+    console.log("getID returning: " + count);
+    return count;
 }
 
 function incrementMessageCount(room) {
