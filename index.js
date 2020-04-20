@@ -1,6 +1,7 @@
 /*
-Code adapted from the Socket.IO documentation's tutorial.
+Code partially adapted from the Socket.IO documentation's tutorial.
 https://socket.io/get-started/chat
+Author: James Bennett 
 */
 
 const express = require('express');
@@ -34,7 +35,7 @@ app.post('/rooms/:roomName', function(req, res){
     });
     res.send(req.params)
 });
-
+/*
 app.get('/rooms', function(req, res){
     var roomArray;
     var ref = db.ref("/rooms");
@@ -46,7 +47,12 @@ app.get('/rooms', function(req, res){
         res.send(filteredRooms)
     })
 });
+*/
 
+/*
+    Iterates through an array of all rooms.
+    Removes any room that hasn't seen use in 3+ hours.
+*/
 function removeExpiredRooms(roomArray) {    
     for( let room in roomArray) {
         console.log("EXPIRE CHECK: " + room + " : " + roomArray[room].last_used)
