@@ -24,6 +24,10 @@ roomNamespace.on('connection', function (socket) {
     
 });
 
+/*
+    Iterates through an array of all rooms.
+    Removes any room that hasn't seen use in 3+ hours.
+*/
 function removeExpiredRooms(roomArray) {    
     for( let room in roomArray) {
         console.log("EXPIRE CHECK: " + room + " : " + roomArray[room].last_used)

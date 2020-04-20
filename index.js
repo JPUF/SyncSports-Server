@@ -35,40 +35,6 @@ app.post('/rooms/:roomName', function(req, res){
     });
     res.send(req.params)
 });
-/*
-app.get('/rooms', function(req, res){
-    var roomArray;
-    var ref = db.ref("/rooms");
-    
-    ref.once("value", function(snapshot) {
-        roomArray = snapshot.val();
-        var filteredRooms = removeExpiredRooms(roomArray);
-        console.log("\n\nAll rooms: " + filteredRooms);
-        res.send(filteredRooms)
-    })
-});
-*/
-
-/*
-    Iterates through an array of all rooms.
-    Removes any room that hasn't seen use in 3+ hours.
-*/
-function removeExpiredRooms(roomArray) {    
-    for( let room in roomArray) {
-        console.log("EXPIRE CHECK: " + room + " : " + roomArray[room].last_used)
-        let isEmpty = roomArray[room].member_count == 0 ? true : false;
-        let timeSinceLastUsed = Date.now() - roomArray[room].last_used
-        let threeHours = 1000 * 60 * 60 * 3;
-
-        if(isEmpty && timeSinceLastUsed >= threeHours) {
-            console.log("expired: " + room)
-            //Delete room
-            db.ref("/rooms/"+room).remove()
-            delete roomArray[room];
-        }
-    }
-    return roomArray;
-}
 
 const server = http.listen(PORT, function() {
     console.log('listening on *:'+PORT);
