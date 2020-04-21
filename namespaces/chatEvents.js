@@ -23,6 +23,7 @@ chatNamespace.on('connection', function (socket) {
         incrementMessageCount(socket.room);
         var id;
         if(object.id == undefined) {
+            console.log("Object ID is undefined. " + object.message)
             getRoomObject(socket.room).then(function(snapshot){
                 const snapVal = snapshot.val()
                 console.log("snapshot value: " + snapVal.message_count)
@@ -40,6 +41,7 @@ chatNamespace.on('connection', function (socket) {
             })
         }
         else {
+            console.log("Object ID is defined. " + object.message)
             const chatObject = {
                 'id': object.id,
                 'parent_id' : object.parent_id,
@@ -55,6 +57,11 @@ chatNamespace.on('connection', function (socket) {
     });
 });
 
+/**
+ * Broadcast a message to all relevant users.
+ * @param {*} object The message object to be sent.
+ * @param {*} room The name of the chatroom to broadcast to.
+ */
 function emitMessage(object, room) {
     chatNamespace.in(room).emit('chat_message', object);
     db.ref("/rooms/" + room).update({
@@ -62,6 +69,11 @@ function emitMessage(object, room) {
     });
 }
 
+/**
+ * Update the number of chatroom members.
+ * 
+ * If there a no members, then set the last_used field to the current time.
+ */
 function updateRoomCount(roomName) {
     //Update room member count
     const roomRef = db.ref("/rooms");
@@ -81,11 +93,17 @@ function updateRoomCount(roomName) {
     });
 };
 
+/**
+ * Read the stored info on a given room.
+ */
 function getRoomObject(room) {
     const roomRef = db.ref("/rooms/" + room);
     return roomRef.once("value");        
 }
 
+/**
+ * Update the message count. Each room has a field in the DB that describes the numbers of messages sent.
+ */
 function incrementMessageCount(room) {
     console.log("Incrementing count in room: "+room)
     const roomRef = db.ref("/rooms/"+room);
@@ -99,6 +117,10 @@ function incrementMessageCount(room) {
         })
     })
 }
+
+/**
+ * Store a copy of the given message into the database.
+ */
 function logMessage(room, messageObject) {
     const messageRef = db.ref("/messages/" + room + "/"+messageObject.id);
     messageRef.set(messageObject);

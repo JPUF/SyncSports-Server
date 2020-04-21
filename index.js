@@ -21,10 +21,17 @@ exports.db = db;
 require("./namespaces/chatEvents");
 require("./namespaces/roomEvents");
 
+/*
+ Root route. Only used for early web app testing.
+*/
 app.get('/', function(req, res) {
     res.render('index.ejs');
 });
 
+/*
+    Express route for creating a new room.
+    It takes the room name as an argument, then stores it in DB.
+*/
 app.post('/rooms/:roomName', function(req, res){
     console.log("room name = " + req.params.roomName)
     db.ref("/rooms/" + req.params.roomName).set({
