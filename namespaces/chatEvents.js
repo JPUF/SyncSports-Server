@@ -21,29 +21,11 @@ chatNamespace.on('connection', function (socket) {
     });
     socket.on('chat_message', function (object) {
         incrementMessageCount(socket.room);
-        var id;
-        if(object.id == undefined) {
-            console.log("Object ID is undefined. " + object.message)
-            getRoomObject(socket.room).then(function(snapshot){
-                const snapVal = snapshot.val()
-                console.log("snapshot value: " + snapVal.message_count)
-                const chatObject = {
-                    'id': snapVal.message_count,
-                    'parent_id' : object.parent_id,
-                    'username': object.username,
-                    'color': object.color,
-                    'message': object.message,
-                    'user_time': object.user_time
-                };
-                emitMessage(chatObject, socket.room)
-                console.log("Message to save: " + chatObject.message)
-                logMessage(socket.room, chatObject)  
-            })
-        }
-        else {
-            console.log("Object ID is defined. " + object.message)
+        getRoomObject(socket.room).then(function(snapshot){
+            const snapVal = snapshot.val()
+            console.log("snapshot value: " + snapVal.message_count)
             const chatObject = {
-                'id': object.id,
+                'id': snapVal.message_count,
                 'parent_id' : object.parent_id,
                 'username': object.username,
                 'color': object.color,
@@ -52,8 +34,8 @@ chatNamespace.on('connection', function (socket) {
             };
             emitMessage(chatObject, socket.room)
             console.log("Message to save: " + chatObject.message)
-            logMessage(socket.room, chatObject)
-        }        
+            logMessage(socket.room, chatObject)  
+        }) 
     });
 });
 
